@@ -8,6 +8,7 @@ import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.example.oqundojuan.mychat.Utilities.URL_LOGIN
 import com.example.oqundojuan.mychat.Utilities.URL_REGISTER
+import org.json.JSONException
 import org.json.JSONObject
 
 object AuthService{
@@ -53,10 +54,16 @@ object AuthService{
         val loginRequest = object: JsonObjectRequest(Method.POST, URL_LOGIN,null,Response.Listener {
             // where parse the json object
             response ->
-            userEmail = response.getString("user")
-            authToken = response.getString("token")
-            isLoggedIn = true
-            complete(true)
+            try{
+                userEmail = response.getString("user")
+                authToken = response.getString("token")
+                isLoggedIn = true
+                complete(true)
+            }catch (e:JSONException){
+                Log.d("JSON","EXC : ${e.localizedMessage}")
+                complete(false)
+            }
+
         },Response.ErrorListener {
             error->
             // handle errors
