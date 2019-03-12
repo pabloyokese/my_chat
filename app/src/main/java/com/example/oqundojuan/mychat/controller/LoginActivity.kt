@@ -1,9 +1,10 @@
-package com.example.oqundojuan.mychat
+package com.example.oqundojuan.mychat.controller
 
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import com.example.oqundojuan.mychat.R
 
 class LoginActivity : AppCompatActivity() {
 
@@ -13,7 +14,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     fun loginCreateUserBtnClicked(view: View){
-        val createUserIntent = Intent(this,CreateUserActivity::class.java)
+        val createUserIntent = Intent(this, CreateUserActivity::class.java)
         startActivity(createUserIntent);
     }
 
