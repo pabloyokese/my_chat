@@ -10,14 +10,13 @@ import android.widget.Toast
 import com.example.oqundojuan.mychat.R
 import com.example.oqundojuan.mychat.Utilities.BROADCAST_USER_DATA_CHANGE
 import com.example.oqundojuan.mychat.services.AuthService
-import com.example.oqundojuan.mychat.services.UserDataService
 import kotlinx.android.synthetic.main.activity_create_user.*
 import java.util.*
 
 class CreateUserActivity : AppCompatActivity() {
 
     var userAvatar = "profileDefault"
-    var avatarColor = "[0.5,0.5,0.5,1]"
+    var avatarColor = "[0.5, 0.5, 0.5, 1]"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,7 +51,7 @@ class CreateUserActivity : AppCompatActivity() {
         val savedG = g.toDouble() /255
         val savedB = b.toDouble() / 255
 
-        avatarColor = "[$savedR,$savedG,$savedB, 1]"
+        avatarColor = "[$savedR, $savedG, $savedB, 1]"
 
     }
 
@@ -74,7 +73,6 @@ class CreateUserActivity : AppCompatActivity() {
                                     // send a broadcast
                                     val userDataChange = Intent(BROADCAST_USER_DATA_CHANGE)
                                     LocalBroadcastManager.getInstance(this).sendBroadcast(userDataChange)
-
                                     enableSpinner(false)
                                     finish()
                                 }else{
