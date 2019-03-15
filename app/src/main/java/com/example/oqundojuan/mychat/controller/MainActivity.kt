@@ -39,7 +39,8 @@ class MainActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
-
+        socket.connect()
+        socket.on("channelCreated",onNewChannel)
 
         val toggle = ActionBarDrawerToggle(
             this, drawer_layout, toolbar,
@@ -55,8 +56,6 @@ class MainActivity : AppCompatActivity(){
     override fun onResume() {
         LocalBroadcastManager.getInstance(this).registerReceiver(userDataChangeReceiver,
             IntentFilter(BROADCAST_USER_DATA_CHANGE))
-        socket.connect()
-        socket.on("channelCreated",onNewChannel)
         super.onResume()
     }
 
