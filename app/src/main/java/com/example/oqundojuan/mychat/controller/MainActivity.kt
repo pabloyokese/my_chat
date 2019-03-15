@@ -20,14 +20,17 @@ import android.widget.TextView
 import android.widget.Toast
 import com.example.oqundojuan.mychat.R
 import com.example.oqundojuan.mychat.Utilities.BROADCAST_USER_DATA_CHANGE
+import com.example.oqundojuan.mychat.Utilities.SOCKET_URL
 import com.example.oqundojuan.mychat.services.AuthService
 import com.example.oqundojuan.mychat.services.UserDataService
+import io.socket.client.IO
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
-import kotlinx.android.synthetic.main.nav_header_main.*
 import kotlinx.android.synthetic.main.nav_header_main.view.*
 
 class MainActivity : AppCompatActivity(){
+
+    val socket = IO.socket(SOCKET_URL)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,11 +45,25 @@ class MainActivity : AppCompatActivity(){
         )
         drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
-        hideKeyboard()
 
         LocalBroadcastManager.getInstance(this).registerReceiver(userDataChangeReceiver,
             IntentFilter(BROADCAST_USER_DATA_CHANGE))
     }
+
+//    override fun onResume() {
+//        socket.connect()
+//        super.onResume()
+//    }
+//
+//    override fun onPause() {
+//        LocalBroadcastManager.getInstance(this).unregisterReceiver(userDataChangeReceiver)
+//        super.onPause()
+//    }
+//
+//    override fun onDestroy() {
+//        socket.disconnect()
+//        super.onDestroy()
+//    }
 
     private val userDataChangeReceiver = object :BroadcastReceiver(){
         override fun onReceive(context: Context?, intent: Intent?) {
@@ -99,12 +116,11 @@ class MainActivity : AppCompatActivity(){
                     val channelDesc = descTextField.toString()
 
                     // create channel with the name and description
-                    hideKeyboard()
+                    socket.emit("newChannel",channelName,channelDesc)
                 }
                 .setNegativeButton("cancel"){
                     dialogInterface, i ->
                     // cancel and close the dialog
-                    hideKeyboard()
                 }
                 .show()
 
@@ -112,7 +128,7 @@ class MainActivity : AppCompatActivity(){
     }
 
     fun sendMsgBtnClicked(view: View){
-
+        hideKeyboard()
     }
 
 
