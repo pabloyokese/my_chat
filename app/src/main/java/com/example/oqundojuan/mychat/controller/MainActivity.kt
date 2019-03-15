@@ -130,9 +130,9 @@ class MainActivity : AppCompatActivity(){
 
     private val onNewChannel = Emitter.Listener { args ->
         runOnUiThread {
-            val channelName = args[0] as String)
-            val channelDesc = args[1] as String)
-            val channelId = args[2] as String)
+            val channelName = args[0] as String
+            val channelDesc = args[1] as String
+            val channelId = args[2] as String
 
             val newChannel = Channel(channelName,channelDesc,channelId)
             MessageService.channels.add(newChannel)
