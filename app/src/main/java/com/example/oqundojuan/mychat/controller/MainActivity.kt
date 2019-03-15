@@ -18,6 +18,8 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import com.example.oqundojuan.mychat.Model.Channel
+import com.example.oqundojuan.mychat.Model.MessageService
 import com.example.oqundojuan.mychat.R
 import com.example.oqundojuan.mychat.Utilities.BROADCAST_USER_DATA_CHANGE
 import com.example.oqundojuan.mychat.Utilities.SOCKET_URL
@@ -128,7 +130,13 @@ class MainActivity : AppCompatActivity(){
 
     private val onNewChannel = Emitter.Listener { args ->
         runOnUiThread {
-            println(args[0] as String)
+            val channelName = args[0] as String)
+            val channelDesc = args[1] as String)
+            val channelId = args[2] as String)
+
+            val newChannel = Channel(channelName,channelDesc,channelId)
+            MessageService.channels.add(newChannel)
+            println(channelName)
         }
     }
 
