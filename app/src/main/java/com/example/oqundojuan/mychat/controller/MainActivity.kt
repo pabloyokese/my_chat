@@ -24,6 +24,7 @@ import com.example.oqundojuan.mychat.Utilities.SOCKET_URL
 import com.example.oqundojuan.mychat.services.AuthService
 import com.example.oqundojuan.mychat.services.UserDataService
 import io.socket.client.IO
+import io.socket.emitter.Emitter
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.nav_header_main.view.*
@@ -46,24 +47,22 @@ class MainActivity : AppCompatActivity(){
         drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
 
-        LocalBroadcastManager.getInstance(this).registerReceiver(userDataChangeReceiver,
-            IntentFilter(BROADCAST_USER_DATA_CHANGE))
+
     }
 
-//    override fun onResume() {
-//        socket.connect()
-//        super.onResume()
-//    }
-//
-//    override fun onPause() {
-//        LocalBroadcastManager.getInstance(this).unregisterReceiver(userDataChangeReceiver)
-//        super.onPause()
-//    }
-//
-//    override fun onDestroy() {
-//        socket.disconnect()
-//        super.onDestroy()
-//    }
+    override fun onResume() {
+        LocalBroadcastManager.getInstance(this).registerReceiver(userDataChangeReceiver,
+            IntentFilter(BROADCAST_USER_DATA_CHANGE))
+        socket.connect()
+        socket.on("channelCreated",onNewChannel)
+        super.onResume()
+    }
+
+    override fun onDestroy() {
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(userDataChangeReceiver)
+        socket.disconnect()
+        super.onDestroy()
+    }
 
     private val userDataChangeReceiver = object :BroadcastReceiver(){
         override fun onReceive(context: Context?, intent: Intent?) {
@@ -112,8 +111,8 @@ class MainActivity : AppCompatActivity(){
                     // perform some logic when clicked
                     val nameTextField = dialogView.findViewById<EditText>(R.id.addChannelNameTxt)
                     val descTextField = dialogView.findViewById<EditText>(R.id.addChannelDescTxt)
-                    val channelName = nameTextField.toString()
-                    val channelDesc = descTextField.toString()
+                    val channelName = nameTextField.text.toString()
+                    val channelDesc = descTextField.text.toString()
 
                     // create channel with the name and description
                     socket.emit("newChannel",channelName,channelDesc)
@@ -124,6 +123,12 @@ class MainActivity : AppCompatActivity(){
                 }
                 .show()
 
+        }
+    }
+
+    private val onNewChannel = Emitter.Listener { args ->
+        runOnUiThread {
+            println(args[0] as String)
         }
     }
 
