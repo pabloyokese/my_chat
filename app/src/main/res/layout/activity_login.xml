@@ -37,7 +37,7 @@
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/textView" android:layout_marginTop="32dp"
+            android:id="@+id/textView" android:layout_marginTop="68dp"
             app:layout_constraintTop_toBottomOf="@+id/loginLoginBtn" app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="8dp" app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
             android:text="Don't have an account?"/>
@@ -45,9 +45,20 @@
             android:text="Sign Up Here"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:id="@+id/loginCreateUserBtn" android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/textView" app:layout_constraintEnd_toEndOf="parent"
+            android:id="@+id/loginCreateUserBtn"
+            app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginEnd="32dp" app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="32dp" android:background="@color/colorPrimary"
-            android:textColor="@android:color/white" android:onClick="loginCreateUserBtnClicked"/>
+            android:textColor="@android:color/white" android:onClick="loginCreateUserBtnClicked"
+            app:layout_constraintHorizontal_bias="0.0" android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/textView"/>
+    <ProgressBar
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/loginSpinner"
+            app:layout_constraintStart_toStartOf="parent" app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintEnd_toEndOf="parent" android:layout_marginBottom="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/textView"
+            android:layout_marginTop="8dp" app:layout_constraintTop_toBottomOf="@+id/loginLoginBtn"/>
 </android.support.constraint.ConstraintLayout>
