@@ -1,12 +1,13 @@
-package com.example.oqundojuan.mychat.Model
+package com.example.oqundojuan.mychat.services
 
 import android.content.Context
 import android.util.Log
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.Volley
+import com.example.oqundojuan.mychat.Model.Channel
 import com.example.oqundojuan.mychat.Utilities.URL_GET_CHANNELS
-import com.example.oqundojuan.mychat.services.AuthService
+import com.example.oqundojuan.mychat.controller.App
 import org.json.JSONException
 
 object MessageService{
@@ -22,8 +23,8 @@ object MessageService{
                     val channelDesc = channel.getString("description")
                     val channelId = channel.getString("_id")
 
-                    val newChannel = Channel(name,channelDesc,channelId)
-                    this.channels.add(newChannel)
+                    val newChannel = Channel(name, channelDesc, channelId)
+                    channels.add(newChannel)
                 }
                 complete(true)
             }catch (e:JSONException){
@@ -40,10 +41,10 @@ object MessageService{
 
             override fun getHeaders(): MutableMap<String, String> {
                 val headers = HashMap<String,String>()
-                headers.put("Authorization","Bearer ${AuthService.authToken}")
+                headers.put("Authorization","Bearer ${App.prefs.authToken}")
                 return headers
             }
         }
-        Volley.newRequestQueue(context).add(channelRequest)
+        App.prefs.requestQueue.add(channelRequest)
     }
 }

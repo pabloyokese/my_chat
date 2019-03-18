@@ -1,6 +1,7 @@
 package com.example.oqundojuan.mychat.services
 
 import android.graphics.Color
+import com.example.oqundojuan.mychat.controller.App
 import java.util.*
 
 object UserDataService{
@@ -16,9 +17,9 @@ object UserDataService{
         avatarName = ""
         email = ""
         name = ""
-        AuthService.authToken = ""
-        AuthService.userEmail = ""
-        AuthService.isLoggedIn = false
+        App.prefs.authToken = ""
+        App.prefs.userEmail = ""
+        App.prefs.isLoggedIn = false
 
     }
 

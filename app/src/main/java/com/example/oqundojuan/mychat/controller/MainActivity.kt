@@ -16,7 +16,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
 import android.widget.EditText
 import com.example.oqundojuan.mychat.Model.Channel
-import com.example.oqundojuan.mychat.Model.MessageService
+import com.example.oqundojuan.mychat.services.MessageService
 import com.example.oqundojuan.mychat.R
 import com.example.oqundojuan.mychat.Utilities.BROADCAST_USER_DATA_CHANGE
 import com.example.oqundojuan.mychat.Utilities.SOCKET_URL
@@ -34,7 +34,8 @@ class MainActivity : AppCompatActivity(){
     lateinit var channelAdapter: ArrayAdapter<Channel>
 
     private fun setupAdapters(){
-        channelAdapter = ArrayAdapter(this,android.R.layout.simple_list_item_1,MessageService.channels)
+        channelAdapter = ArrayAdapter(this,android.R.layout.simple_list_item_1,
+            MessageService.channels)
         channel_list.adapter = channelAdapter
     }
 
@@ -54,6 +55,10 @@ class MainActivity : AppCompatActivity(){
         toggle.syncState()
         setupAdapters()
 
+        if(App.prefs.isLoggedIn){
+            AuthService.findUserByEmail(this){}
+        }
+
     }
 
     override fun onResume() {
@@ -70,7 +75,7 @@ class MainActivity : AppCompatActivity(){
 
     private val userDataChangeReceiver = object :BroadcastReceiver(){
         override fun onReceive(context: Context, intent: Intent?) {
-            if (AuthService.isLoggedIn){
+            if (App.prefs.isLoggedIn){
                 nav_drawer_header_include.userNameNavHeader.text = UserDataService.name
                 nav_drawer_header_include.userEmailNavHeader.text = UserDataService.email
                 val resourceId = resources.getIdentifier(UserDataService.avatarName,"drawable",
@@ -96,7 +101,7 @@ class MainActivity : AppCompatActivity(){
     }
 
     fun loginBtnNavClicked(view: View){
-        if(AuthService.isLoggedIn){
+        if(App.prefs.isLoggedIn){
             // log out
             UserDataService.logout()
             nav_drawer_header_include.userNameNavHeader.text = ""
@@ -111,7 +116,7 @@ class MainActivity : AppCompatActivity(){
     }
 
     fun addChannelClicked(view: View){
-        if(AuthService.isLoggedIn){
+        if(App.prefs.isLoggedIn){
             val builder = AlertDialog.Builder(this)
             val dialogView = layoutInflater.inflate(R.layout.add_channel_dialog,null)
             builder.setView(dialogView)
