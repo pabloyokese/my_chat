@@ -2,6 +2,7 @@ package com.example.oqundojuan.mychat.Adapters
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,9 @@ import android.widget.TextView
 import com.example.oqundojuan.mychat.Model.Message
 import com.example.oqundojuan.mychat.R
 import com.example.oqundojuan.mychat.services.UserDataService
+import java.text.ParseException
+import java.text.SimpleDateFormat
+import java.util.*
 
 class MessageAdapter(val context: Context, val messages: ArrayList<Message>): RecyclerView.Adapter<MessageAdapter.ViewHolder>(){
 
@@ -37,8 +41,22 @@ class MessageAdapter(val context: Context, val messages: ArrayList<Message>): Re
             userImage?.setImageResource(resourceId)
             userImage?.setBackgroundColor(UserDataService.returnAvatarColor(message.userAvantarColor))
             userName?.text = message.userName
-            timeStamp?.text = message.timeStamp
+            timeStamp?.text = returnDateString(message.timeStamp)
             messageBody?.text = message.message
+        }
+
+        fun returnDateString(isoString:String):String{
+            val isoFormater = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
+            isoFormater.timeZone = TimeZone.getTimeZone("UTC")
+
+            var convertedDate = Date()
+            try{
+                convertedDate = isoFormater.parse(isoString)
+            }catch (e:ParseException){
+                Log.d("PARSE","Cannot parse date")
+            }
+            val outDateString = SimpleDateFormat("E, h:mm a", Locale.getDefault())
+            return outDateString.format(convertedDate)
         }
     }
 }
