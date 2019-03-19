@@ -4,12 +4,14 @@ import android.util.Log
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonArrayRequest
 import com.example.oqundojuan.mychat.Model.Channel
+import com.example.oqundojuan.mychat.Model.Message
 import com.example.oqundojuan.mychat.Utilities.URL_GET_CHANNELS
 import com.example.oqundojuan.mychat.controller.App
 import org.json.JSONException
 
 object MessageService{
     val channels = ArrayList<Channel>()
+    val messages = ArrayList<Message>()
 
     fun getChannels(complete: (Boolean)->Unit){
         var channelRequest = object: JsonArrayRequest(Method.GET, URL_GET_CHANNELS,null, Response.Listener {
